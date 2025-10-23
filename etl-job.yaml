@@ -1,0 +1,43 @@
+# etl-job.yaml
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: etl-job
+  labels:
+    app: etl-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: etl-job
+    spec:
+      containers:
+      - name: etl
+        image: quay.io/tigeryi/etl_app:latest
+        env:
+          - name: DB_HOST
+            value: "db"  # This should match the service name defined in postgres-service.yaml
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: "postgres"
+          - name: DB_USER
+            value: "postgres"
+          - name: DB_PASSWORD
+            value: "password"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        volumeMounts:
+        - mountPath: "/data"
+          name: etl-data
+      volumes:
+      - name: etl-data
+        persistentVolumeClaim:
+          claimName: etl-pvc
+      restartPolicy: Never

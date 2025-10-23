@@ -1,0 +1,14 @@
+# postgres-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db  # This will be the DNS hostname your ETL job uses
+spec:
+  selector:
+    app: postgres  # Matches the label in your PostgreSQL deployment
+  ports:
+  - protocol: TCP
+    port: 5432      # Port exposed by the service
+    targetPort: 5432 # Port PostgreSQL is listening on in the pod
+  type: ClusterIP    # Internal access only (default type)

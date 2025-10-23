@@ -1,0 +1,44 @@
+# docker-compose.yml
+
+services:
+  # Postgres database
+  postgres:
+    image: postgres:13
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ETL Job / App
+  etl:
+    build:
+      context: .
+      dockerfile: Containerfile
+    image: etl_app:latest
+    container_name: etl-job
+    restart: "no"
+    depends_on:
+      - postgres
+    volumes:
+      - etl_data:/app
+    environment:
+      # Example env if needed, could include DB_HOST etc.
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgres
+      DB_PORT: 5432
+
+volumes:
+  postgres_data:
+  etl_data:
+
+networks:
+  default:
+    driver: bridge

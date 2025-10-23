@@ -1,0 +1,338 @@
+# oc-kubectl.txt 
+
+## Outdated but good reference
+
+
+1. Start Minikube local cluster:
+
+Starts a Minikube cluster using the qemu2 driver.
+```bash 
+minikube start --driver=qemu2
+```
+
+If you’re using Podman as the runtime:
+```bash
+minikube start --driver=podman
+```
+
+Virtual machine (Apple’s native framework)
+```bash
+minikube start --driver=vfkit
+```
+
+
+2. Stop Minikube local cluster:
+Stops the Minikube cluster.
+
+```bash
+minikube stop
+```
+
+
+3. Delete Minikube Cluster:
+Deletes the Minikube cluster and removes all its traces.
+
+```bash
+minikube delete
+```
+
+
+
+
+-----
+
+⚙️ Kubernetes / OpenShift Commands
+You can use either `kubectl` or `oc` — both work the same for most cases.
+
+1. View Resources:
+
+• Pods:
+
+```bash
+kubectl get pods
+# or
+oc get pods
+```
+
+• Persistent Volumes (PVs):
+
+```bash
+kubectl get pv
+oc get pv
+```
+
+• Storage Classes (SCs):
+
+```bash
+kubectl get sc
+oc get sc
+```
+
+• Persistent Volume Claims (PVCs):
+
+```bash
+kubectl get pvc
+oc get pvc
+```
+
+
+2. Apply Kubernetes Configurations:
+Applies multiple Kubernetes configuration files for a job, deployment, persistent volumes, and services.
+
+```bash
+# kubectl
+kubectl apply -f postgres-persistent-volume.yaml  # Postgres PV + PVC
+kubectl apply -f postgres-deployment.yaml         # Postgres Deployment
+kubectl apply -f postgres-service.yaml            # Postgres Service
+kubectl apply -f persistent-volume.yaml           # ETL PV + PVC
+kubectl apply -f etl-job.yaml                     # ETL Job
+```
+
+Or with oc:
+```bash
+# openshift oc
+oc apply -f postgres-persistent-volume.yaml       # Postgres PV + PVC
+oc apply -f postgres-deployment.yaml              # Postgres Deployment
+oc apply -f postgres-service.yaml                 # Postgres Service
+oc apply -f persistent-volume.yaml                # ETL PV + PVC
+oc apply -f etl-job.yaml                          # ETL Job
+```
+
+
+3. Execute a Shell in a Pod:
+Opens an interactive shell (bash) inside the specified pod.
+
+```bash
+kubectl exec -it <pod-name> -- bash
+oc exec -it <pod-name> -- bash
+
+# or if the container only has /bin/sh (common for lightweight images):
+
+kubectl exec -it <pod-name> -- sh
+oc exec -it <pod-name> -- sh
+
+# rsh shortcut 
+oc rsh <pod-name>  # (shortcut for “remote shell”)
+```
+
+
+4. Scale a Deployment:
+Scales the specified deployment to the desired number of replicas.
+
+```bash
+kubectl scale deployment <deployment-name> --replicas=<number>
+# or
+oc scale deployment <deployment-name> --replicas=<number>
+```
+
+
+---
+
+🧰 Building and Managing Images with Docker (local build)
+
+1. Build a Docker Image:
+Builds a Docker image from a Dockerfile in the current directory.
+
+docker build -f Containerfile -t <image-name>:<tag> .
+docker build -f Containerfile -t etl_app:latest .
+
+
+2. Tag the Image for Docker Hub
+# Add your Docker Hub username/namespace
+docker tag etl_app:latest docker.io/<username>/etl_app:latest
+
+3. Push a Docker Image to a Repository:
+
+docker push <image-name>:<tag>
+
+docker login docker.io
+
+docker push docker.io/<username>/etl_app:latest
+
+
+Pushes a Docker image to a container registry (e.g., Docker Hub). `docker.io`
+<image-name> = [registry/]username/image-name:tag
+
+
+---
+
+🧰 Building and Managing Images with Podman (local build)
+
+1. Build a Container Image
+
+podman build -f Containerfile -t <image-name>:<tag> .
+# podman build -f Containerfile -t etl_app:latest .
+
+
+2. Tag the Image for Registry
+
+podman tag etl_app:latest quay.io/<username>/etl_app:latest
+
+
+
+3. Push to a Registry
+
+podman push <image-name>:<tag>
+
+podman login quay.io
+
+podman push quay.io/<username>/etl_app:latest
+
+
+
+### You can push to Docker Hub (docker.io), Quay.io (Red Hat), or your OpenShift internal registry.
+
+
+Quay.io (recommended for OpenShift, if you have the access to the Hub)
+```bash
+podman login quay.io
+podman push quay.io/<username>/<image-name>:<tag>
+# podman push quay.io/<username>/etl_app:latest
+```
+
+
+OpenShift internal registry.
+
+You can push directly to your project namespace:
+```bash
+# Login to your OpenShift internal registry
+podman login --username=$(oc whoami) --password=$(oc whoami -t) \
+  image-registry.openshift-image-registry.svc:5000
+
+# Tag and push to your project namespace
+podman tag etl_app:latest image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
+
+podman push <image-name>:<tag> \
+  image-registry.openshift-image-registry.svc:5000/<project>/<image-name>:<tag>
+
+# podman push etl_app:latest \
+  image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
+```
+
+
+
+
+---
+
+🐘 PostgreSQL Commands Inside the Pod
+
+1. Connect to PostgreSQL:
+
+```bash 
+psql -U postgres
+```
+
+### Opens a PostgreSQL prompt.
+
+
+2. Inside of the psql:
+
+```sql
+\dt          -- list tables
+SELECT * FROM <table_name>;
+\q           -- exit psql
+```
+
+3. Exit PostgreSQL:
+
+```bash
+exit
+```
+
+
+🧭 Summary Table
+
+| Task                | Old Docker / kubectl             | New (Podman / oc)                |
+| ------------------- | -------------------------------- | -------------------------------- |
+| Start local cluster | `minikube start`                 | `minikube start`                 |
+| Get pods            | `kubectl get pods`               | `oc get pods`                    |
+| Exec into pod       | `kubectl exec -it <pod> -- bash` | `oc rsh <pod>`                   |
+| Build image         | `docker build -t app:latest .`   | `podman build -t app:latest .`   |
+| Push image          | `docker push app:latest`         | `podman push app:latest`         |
+| Stop cluster        | `minikube stop`                  | same                             |
+| Delete cluster      | `minikube delete`                | same                             |
+
+
+
+
+
+----
+
+## The stuffs below has nothing to do with the current lab
+## It is for the homework assignment, unrelated to this lab
+
+# OpenShift - ELT 
+
+copy + paste from professor white's HW solution 
+
+
+## Deployment Steps
+
+### Step 1: Login to OpenShift
+
+```bash
+# Copy login command from OpenShift web console
+# (Top-right menu → Copy Login Command)
+oc login --token=YOUR_TOKEN --server=https://api.sandbox.x8i5.p1.openshiftapps.com:6443
+```
+
+### Step 2: Verify Your Project
+
+**Note**: Developer Sandbox provides a single pre-created project (namespace) for you. You cannot create additional projects.
+
+```bash
+# Check your assigned project name
+oc project
+
+# Output will look like: "USERNAME-dev" or similar
+# Example: lwhite-dev
+```
+
+......
+
+### Step 6: Build ETL Container Image
+
+**Option A: Using OpenShift BuildConfig (Recommended)**
+
+```bash
+# 1. Create GitHub credentials secret (repo is private)
+#    First, create a GitHub Personal Access Token:
+#    GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+#    Required scope: repo (full control)
+oc create secret generic github-credentials \
+  --from-literal=username=YOUR_GITHUB_USERNAME \
+  --from-literal=password=YOUR_GITHUB_PAT \
+  --type=kubernetes.io/basic-auth
+
+# 2. Apply BuildConfig (already configured for this repo)
+oc apply -f openshift/etl-buildconfig.yaml
+
+# 3. Trigger build
+oc start-build tiktok-etl
+
+# Monitor build logs
+oc logs -f buildconfig/tiktok-etl
+
+# Verify image created
+oc get imagestream tiktok-etl
+```
+
+**Option B: Using Local Build + Push**
+
+```bash
+# Build locally
+podman build -t tiktok-etl:latest -f Containerfile .
+
+# Tag for OpenShift registry
+podman tag tiktok-etl:latest \
+  image-registry.openshift-image-registry.svc:5000/tiktok-etl/tiktok-etl:latest
+
+# Login to OpenShift registry
+podman login -u $(oc whoami) -p $(oc whoami -t) \
+  default-route-openshift-image-registry.apps.sandbox.x8i5.p1.openshiftapps.com
+
+# Push image
+podman push tiktok-etl:latest \
+  default-route-openshift-image-registry.apps.sandbox.x8i5.p1.openshiftapps.com/tiktok-etl/tiktok-etl:latest
+```
+
