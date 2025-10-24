@@ -7,6 +7,8 @@ metadata:
   labels:
     app: etl-job
 spec:
+  # Job will retry up to 3 times on failure
+  backoffLimit: 3
   template:
     metadata:
       labels:
@@ -15,16 +17,17 @@ spec:
       containers:
       - name: etl
         image: quay.io/tigeryi/etl_app:latest
+        imagePullPolicy: Always
         env:
-          - name: DB_HOST
-            value: "db"  # This should match the service name defined in postgres-service.yaml
-          - name: DB_PORT
+          - name: POSTGRES_HOST
+            value: "postgres"  # This should match the service name defined in postgres-service.yaml
+          - name: POSTGRES_PORT
             value: "5432"
-          - name: DB_NAME
-            value: "postgres"
-          - name: DB_USER
-            value: "postgres"
-          - name: DB_PASSWORD
+          - name: POSTGRES_DB
+            value: "mydb"
+          - name: POSTGRES_USER
+            value: "user"
+          - name: POSTGRES_PASSWORD
             value: "password"
         resources:
           requests:

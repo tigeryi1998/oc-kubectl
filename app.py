@@ -26,16 +26,17 @@ if __name__ == "__main__":
 
     # 🧩 Load DB config from environment (with fallbacks)
     # host: must match your postgres service name in YAML
-    # 'db' is the service name in the Kubernetes cluster
+    # 'postgres' is the service name in the Kubernetes cluster
     db_config = {
-        'user': os.getenv('DB_USER', 'postgres'),
-        'password': os.getenv('DB_PASSWORD', 'password'),
-        'host': os.getenv('DB_HOST', 'db'), 
-        'port': os.getenv('DB_PORT', '5432'),
-        'dbname': os.getenv('DB_NAME', 'postgres')
+        'user': os.getenv('POSTGRES_USER', 'user'),
+        'password': os.getenv('POSTGRES_PASSWORD', 'password'),
+        'host': os.getenv('POSTGRES_HOST', 'postgres'), 
+        'port': os.getenv('POSTGRES_PORT', '5432'),
+        'dbname': os.getenv('POSTGRES_DB', 'mydb')
     }
 
     # 🧠 Build connection URL
+    # postgresql+psycopg2://user:password@postgres:5432/mydb
     url = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
 
     print("📄 Reading CSV file...")

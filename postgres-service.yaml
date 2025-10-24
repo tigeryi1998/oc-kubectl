@@ -3,12 +3,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: db  # This will be the DNS hostname your ETL job uses
+  name: postgres    # clearer service DNS name
+  labels:
+    app: postgres
 spec:
   selector:
-    app: postgres  # Matches the label in your PostgreSQL deployment
+    app: postgres   # Matches the label in your PostgreSQL deployment
   ports:
   - protocol: TCP
     port: 5432      # Port exposed by the service
     targetPort: 5432 # Port PostgreSQL is listening on in the pod
+    name: postgres
   type: ClusterIP    # Internal access only (default type)
