@@ -214,12 +214,29 @@ podman push <image-name>:<tag> \
 
 ---
 
+Now, go inside of the postgres pod. 
+Grab the name of the postgres pod. 
+
+```bash
+# check the name of the pods
+kubectl get pods
+
+kubectl exec -it <pod-name> -- bash
+kubectl exec -it <pod-name> -- sh
+
+oc exec -it <pod-name> -- bash
+oc exec -it <pod-name> -- sh
+
+# oc short cut
+oc rsh <pod-name>
+```
+
 🐘 PostgreSQL Commands Inside the Pod
 
 1. Connect to PostgreSQL:
 
 ```bash 
-psql -U postgres
+psql -U user -d mydb
 ```
 
 ### Opens a PostgreSQL prompt.
@@ -240,6 +257,13 @@ exit
 ```
 
 
+You can do everything in 1 go
+
+kubectl exec -it <pod-name> -- psql -U user -d mydb -c "\dt; SELECT * FROM titanic LIMIT 5;"
+
+
+
+
 🧭 Summary Table
 
 | Task                | Old Docker / kubectl             | New (Podman / oc)                |
@@ -251,7 +275,6 @@ exit
 | Push image          | `docker push app:latest`         | `podman push app:latest`         |
 | Stop cluster        | `minikube stop`                  | same                             |
 | Delete cluster      | `minikube delete`                | same                             |
-
 
 
 

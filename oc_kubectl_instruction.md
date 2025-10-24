@@ -519,7 +519,7 @@ oc rsh <pod-name>
 1. Connect to PostgreSQL:
 
 ```bash 
-psql -U postgres
+psql -U user -d mydb
 ```
 
 Opens a PostgreSQL prompt.
@@ -545,6 +545,9 @@ SELECT * FROM <table_name> LIMIT 5;
 exit
 ```
 
+You can do everything in 1 go
+
+kubectl exec -it <pod-name> -- psql -U user -d mydb -c "\dt; SELECT * FROM titanic LIMIT 5;"
 
 
 ---
