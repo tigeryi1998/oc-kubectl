@@ -62,10 +62,10 @@ if __name__ == "__main__":
 
     print("🏁 ETL job completed successfully.")
     # Optional: Save the DataFrame to a local file for verification
-    os.makedirs('output', exist_ok=True)
-    df.to_csv('output/titanic_output.csv', index=False)
-    print("💾 DataFrame saved to 'output/titanic_output.csv'.")
-    
+    os.makedirs('data', exist_ok=True)
+    df.to_csv('data/titanic_output.csv', index=False)
+    print("💾 DataFrame saved to 'data/titanic_output.csv'.")
+
     # Keep the script running to allow inspection if needed
     # while True:
     #     time.sleep(60)  # sleep to keep the container alive

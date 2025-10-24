@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Ensure proper permissions
+RUN chmod +x *.sh
 RUN chmod -R +rwX .
 
 # Run the application
