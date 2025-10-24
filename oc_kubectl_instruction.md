@@ -359,10 +359,10 @@ minikube podman-env  # or minikube docker-env if using Docker driver
 eval $(minikube podman-env)
 
 # Now, you’re “inside” Minikube’s Podman environment — if you build here:
-podman build -f Containerfile -t etl_app:latest .
+podman build -f Containerfile -t etl-app:latest .
 
 # the image goes directly into Minikube’s Podman, and you can immediately run:
-# minikube image load etl_app:latest
+# minikube image load etl-app:latest
 kubectl apply -f etl-job.yaml
 
 # 💡 Tip: when done, exit back to your normal environment with:
@@ -385,25 +385,25 @@ docker login docker.io
 
 1. Build:
 ```bash
-docker build -f Containerfile -t etl_app:latest .
-podman run --rm -it -d etl_app:latest
+docker build -f Containerfile -t etl-app:latest .
+podman run --rm -it -d etl-app:latest
 ```
 
 2. Tag (explicit Docker Hub):
 ```bash
-docker tag etl_app:latest docker.io/<username>/etl_app:latest
+docker tag etl-app:latest docker.io/<username>/etl-app:latest
 ```
 
 3. Push:
 ```bash
 docker login docker.io
-docker push docker.io/<username>/etl_app:latest
+docker push docker.io/<username>/etl-app:latest
 ```
 
 4. Run ETL Job: 
 ```bash
 # simple create job (do not run)
-# kubectl create job etl-job --image=quay.io/tigeryi/etl_app:latest
+# kubectl create job etl-job --image=quay.io/tigeryi/etl-app:latest
 
 # run the etl job yaml manifest instead
 kubectl apply -f etl-job.yaml              
@@ -425,7 +425,7 @@ kubectl delete job etl-job
 https://quay.io/repository/
 
 Create New Repository 
-Repository Name: etl_app
+Repository Name: etl-app
 Public view, Empty 
 
 ```bash
@@ -434,13 +434,13 @@ podman login quay.io
 
 1. Build:
 ```bash
-podman build -f Containerfile -t etl_app:latest .
+podman build -f Containerfile -t etl-app:latest .
 ```
 
 2. Tag (quay.io example):
 ```bash
-podman tag etl_app:latest quay.io/<username>/etl_app:latest
-# podman tag etl_app:latest quay.io/tigeryi/etl_app:latest
+podman tag etl-app:latest quay.io/<username>/etl-app:latest
+# podman tag etl-app:latest quay.io/tigeryi/etl-app:latest
 
 podman image prune
 ```
@@ -449,17 +449,17 @@ podman image prune
 ```bash
 podman login quay.io
 
-podman push quay.io/<username>/etl_app:latest
-# podman push quay.io/tigeryi/etl_app:latest
+podman push quay.io/<username>/etl-app:latest
+# podman push quay.io/tigeryi/etl-app:latest
 
-podman pull quay.io/<username>/etl_app:latest
-# podman pull quay.io/tigeryi/etl_app:latest
+podman pull quay.io/<username>/etl-app:latest
+# podman pull quay.io/tigeryi/etl-app:latest
 ```
 
 4. Run ETL Job: 
 ```bash
 # simple create job (do not run)
-# kubectl create job etl-job --image=quay.io/tigeryi/etl_app:latest
+# kubectl create job etl-job --image=quay.io/tigeryi/etl-app:latest
 
 # run the etl job yaml manifest instead
 kubectl apply -f etl-job.yaml                   
@@ -479,13 +479,13 @@ kubectl delete job etl-job
 ## OpenShift Internal Registry (Homework try this one)
 
 ```bash
-podman build -f Containerfile -t etl_app:latest .
+podman build -f Containerfile -t etl-app:latest .
 podman login --username=$(oc whoami) --password=$(oc whoami -t) \
   image-registry.openshift-image-registry.svc:5000
-podman tag etl_app:latest \
-  image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
-podman push etl_app:latest \
-  image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
+podman tag etl-app:latest \
+  image-registry.openshift-image-registry.svc:5000/<project>/etl-app:latest
+podman push etl-app:latest \
+  image-registry.openshift-image-registry.svc:5000/<project>/etl-app:latest
 ```
 
 

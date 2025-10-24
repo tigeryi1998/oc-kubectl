@@ -134,12 +134,12 @@ oc scale deployment <deployment-name> --replicas=<number>
 Builds a Docker image from a Dockerfile in the current directory.
 
 docker build -f Containerfile -t <image-name>:<tag> .
-docker build -f Containerfile -t etl_app:latest .
+docker build -f Containerfile -t etl-app:latest .
 
 
 2. Tag the Image for Docker Hub
 # Add your Docker Hub username/namespace
-docker tag etl_app:latest docker.io/<username>/etl_app:latest
+docker tag etl-app:latest docker.io/<username>/etl-app:latest
 
 3. Push a Docker Image to a Repository:
 
@@ -147,7 +147,7 @@ docker push <image-name>:<tag>
 
 docker login docker.io
 
-docker push docker.io/<username>/etl_app:latest
+docker push docker.io/<username>/etl-app:latest
 
 
 Pushes a Docker image to a container registry (e.g., Docker Hub). `docker.io`
@@ -161,12 +161,12 @@ Pushes a Docker image to a container registry (e.g., Docker Hub). `docker.io`
 1. Build a Container Image
 
 podman build -f Containerfile -t <image-name>:<tag> .
-# podman build -f Containerfile -t etl_app:latest .
+# podman build -f Containerfile -t etl-app:latest .
 
 
 2. Tag the Image for Registry
 
-podman tag etl_app:latest quay.io/<username>/etl_app:latest
+podman tag etl-app:latest quay.io/<username>/etl-app:latest
 
 
 
@@ -176,7 +176,7 @@ podman push <image-name>:<tag>
 
 podman login quay.io
 
-podman push quay.io/<username>/etl_app:latest
+podman push quay.io/<username>/etl-app:latest
 
 
 
@@ -187,7 +187,7 @@ Quay.io (recommended for OpenShift, if you have the access to the Hub)
 ```bash
 podman login quay.io
 podman push quay.io/<username>/<image-name>:<tag>
-# podman push quay.io/<username>/etl_app:latest
+# podman push quay.io/<username>/etl-app:latest
 ```
 
 
@@ -200,13 +200,13 @@ podman login --username=$(oc whoami) --password=$(oc whoami -t) \
   image-registry.openshift-image-registry.svc:5000
 
 # Tag and push to your project namespace
-podman tag etl_app:latest image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
+podman tag etl-app:latest image-registry.openshift-image-registry.svc:5000/<project>/etl-app:latest
 
 podman push <image-name>:<tag> \
   image-registry.openshift-image-registry.svc:5000/<project>/<image-name>:<tag>
 
-# podman push etl_app:latest \
-  image-registry.openshift-image-registry.svc:5000/<project>/etl_app:latest
+# podman push etl-app:latest \
+  image-registry.openshift-image-registry.svc:5000/<project>/etl-app:latest
 ```
 
 

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: etl
-        image: quay.io/tigeryi/etl_app:latest
+        image: quay.io/tigeryi/etl-app:latest
         imagePullPolicy: Always
         env:
           - name: POSTGRES_HOST
