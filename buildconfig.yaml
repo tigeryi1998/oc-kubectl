@@ -27,7 +27,7 @@ spec:
       uri: https://github.com/tigeryi1998/oc-kubectl
     contextDir: /
     sourceSecret:
-      name: ds551
+      name: ds551 # Replace with your actual secret name if needed
   strategy:
     type: Docker
     dockerStrategy:
