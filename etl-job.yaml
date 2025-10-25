@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: etl
-        image: image-registry.openshift-image-registry.svc:5000/ds551-2025fall-cb9303/elt-app:latest
+        image: image-registry.openshift-image-registry.svc:5000/ds551-2025fall-cb9303/etl-app:latest
         # image: quay.io/tigeryi/etl-app:latest
         imagePullPolicy: Always
         env:
