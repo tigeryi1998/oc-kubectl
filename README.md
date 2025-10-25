@@ -42,7 +42,7 @@ Verify that your project quota allows for at least:
 4. Once created, go to **Builds → Builds → etl-app → Start build**.  
 5. Wait until the build finishes successfully (status: *Complete*).  
 
-📸 *See `screenshot/log-build.png` for reference.*
+📸 See [`log-build.png`](./screenshot/log-build.png) for reference.
 
 ---
 
@@ -54,7 +54,7 @@ Verify that your project quota allows for at least:
    - [`postgres-service.yaml`](./postgres-service.yaml)
 3. Wait until the Postgres pod is running and the service shows a valid cluster IP.
 
-📸 *See `screenshot/log-postgres.png`.*
+📸 See [`log-postgres.png`](./screenshot/log-postgres.png) for reference.
 
 ---
 
@@ -63,7 +63,7 @@ Verify that your project quota allows for at least:
 2. This job uses the image built from step 2 (`etl-app:latest` ImageStreamTag).  
 3. Once created, check **Jobs → etl-job → Pods → Logs** to verify it completed successfully.  
 
-📸 *See `screenshot/log-job.png`.*
+📸 See [`log-job.png`](./screenshot/log-job.png) for reference.
 
 ---
 
