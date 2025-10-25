@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data/pgdata
 
   # ETL Job / App
   etl:
@@ -26,14 +26,15 @@ services:
     depends_on:
       - postgres
     volumes:
-      - etl_data:/app
+      - etl_data:/data
     environment:
       # Example env if needed, could include DB_HOST etc.
-      DB_HOST: db
-      DB_USER: postgres
-      DB_PASSWORD: password
-      DB_NAME: postgres
-      DB_PORT: 5432
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+      POSTGRES_PORT: 5432
+      PGDATA: /var/lib/postgresql/data/pgdata
 
 volumes:
   postgres_data:
