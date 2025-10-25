@@ -9,9 +9,7 @@ spec:
     local: false
   tags:
     - name: latest
-
 ---
-
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
