@@ -72,7 +72,6 @@ Verify that your project quota allows for at least:
 If your ETL job writes results into Postgres:
 1. Open the **Pod Terminal** for the Postgres pod.  
 2. Run:
-
    ```bash 
    psql -U user -d mydb
    ```
