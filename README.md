@@ -52,6 +52,7 @@ Verify that your project quota allows for at least:
    - [`postgres-persistent-volume.yaml`](./postgres-persistent-volume.yaml)
    - [`postgres-deployment.yaml`](./postgres-deployment.yaml)
    - [`postgres-service.yaml`](./postgres-service.yaml)
+   - [`etl-persistent-volume.yaml`](./etl-persistent-volume.yaml)
 3. Wait until the Postgres pod is running and the service shows a valid cluster IP.
 
 📸 See [`log-postgres.png`](./screenshot/log-postgres.png) for reference.
