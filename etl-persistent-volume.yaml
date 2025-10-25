@@ -1,4 +1,4 @@
-# persistent-volume.yaml
+# etl-persistent-volume.yaml
 
 # apiVersion: v1
 # kind: PersistentVolume
