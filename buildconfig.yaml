@@ -1,0 +1,48 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: etl-app
+  labels:
+    app: etl-app
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+
+---
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: etl-app
+  labels:
+    app: etl-app
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: etl-app:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/tigeryi1998/oc-kubectl
+    contextDir: /
+    sourceSecret:
+      name: ds551
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: etl-app-github-webhook-secret
+    - type: Generic
+      generic:
+        secretReference:
+          name: etl-app-generic-webhook-secret
+  runPolicy: Serial
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
