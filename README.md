@@ -72,10 +72,17 @@ Verify that your project quota allows for at least:
 If your ETL job writes results into Postgres:
 1. Open the **Pod Terminal** for the Postgres pod.  
 2. Run:
-   ```bash
-   psql -U postgres -d postgres
-   \dt
-   select * from <your_table>;
+
+   ```bash 
+   psql -U user -d mydb
+   ```
+
+   ```sql
+   postgres=#  -- PostgreSQL prompt
+   \dt   -- list tables
+   SELECT * FROM titanic LIMIT 5;
+   \q    -- exit view
+   \q    -- exit psql
    ```
 3. Confirm that data loaded as expected.
 
