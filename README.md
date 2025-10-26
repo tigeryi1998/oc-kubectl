@@ -1,7 +1,10 @@
 # ETL App Deployment on OpenShift
 
 This guide documents how the **ETL job and Postgres database** were deployed to **Red Hat OpenShift**, using the **OpenShift Web Console (UI)** — not the CLI.  
+
 The goal is to show how to build container images, create supporting services, and run a one-time ETL job in a cloud environment.
+
+Link to the Openshift Web Console: https://console.apps.edu.nerc.mghpcc.org/
 
 ---
 
