@@ -57,6 +57,8 @@ Verify that your project quota allows for at least:
 
 📸 See [`log-postgres.png`](./screenshot/log-postgres.png) for reference.
 
+📸 Also see [`resource-creation.png`](./screenshot/resource-creation.png) for reference.
+
 ---
 
 ### 4. Run the ETL Job
@@ -65,6 +67,8 @@ Verify that your project quota allows for at least:
 3. Once created, check **Jobs → etl-job → Pods → Logs** to verify it completed successfully.  
 
 📸 See [`log-job.png`](./screenshot/log-job.png) for reference.
+
+📸 Also see [`resource-creation.png`](./screenshot/resource-creation.png) for reference.
 
 ---
 
