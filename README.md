@@ -94,6 +94,28 @@ If your ETL job writes results into Postgres:
 
 ---
 
+### 6. Scale down deployment, delete resources
+
+Scale down deployment postgres, this will delete postgres pod
+
+```bash
+oc scale deployment postgres --replicas=0
+# oc scale deployment postgres --replicas=1 
+```
+
+Delete all resources from etl, postgres 
+
+```bash
+# give execute permission
+chmod +x delete.sh
+./delete.sh 
+
+# or just bash 
+bash delete.sh
+```
+
+---
+
 ## 🧩 Local Testing (Optional)
 
 You can also test everything locally before uploading to OpenShift using **Podman Desktop** or Docker:
