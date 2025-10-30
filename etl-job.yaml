@@ -14,6 +14,7 @@ spec:
       labels:
         app: etl-job
     spec:
+      restartPolicy: OnFailure
       containers:
       - name: etl
         image: image-registry.openshift-image-registry.svc:5000/ds551-2025fall-cb9303/etl-app:latest
@@ -45,4 +46,3 @@ spec:
         # emptyDir: {}  # Use emptyDir for ephemeral storage
         persistentVolumeClaim:
           claimName: etl-pvc
-      restartPolicy: Never
